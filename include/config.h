@@ -4,9 +4,11 @@
 // ==========================================
 // 1. 网络与 WebSocket 服务端配置
 // ==========================================
-#define WIFI_SSID "Yinuo"
-#define WIFI_PASSWORD "yinuo331"
-#define WEBSOCKET_SERVER "172.20.10.2"
+#if __has_include("config.local.h")
+#include "config.local.h"
+#else
+#error "Copy include/config.local.example.h to include/config.local.h and configure your network."
+#endif
 #define WEBSOCKET_PORT 8765
 #define DEVICE_ID "esp32s3_nfc_box_01"
 #define HEARTBEAT_INTERVAL 30000
