@@ -8,10 +8,10 @@
 namespace {
 constexpr i2s_port_t MIC_I2S_PORT = I2S_NUM_0;
 constexpr i2s_port_t SPK_I2S_PORT = I2S_NUM_1;
-constexpr uint32_t AUDIO_SAMPLE_RATE = 16000;
-constexpr size_t MIC_DMA_BUFFER_LENGTH = 256;
-constexpr size_t SPEAKER_DMA_BUFFER_LENGTH = 512;
-constexpr size_t TTS_RING_BUFFER_BYTES = 32 * 1024;
+constexpr uint32_t AUDIO_SAMPLE_RATE = 16000;// 音频采样率：16 kHz，适合语音处理和 TTS 播放。
+constexpr size_t MIC_DMA_BUFFER_LENGTH = 256;// I2S DMA 缓冲配置，麦克风输入每次读取 256 个样本（约 32ms 音频），扬声器输出每次写入 512 字节（约 16ms 音频）。
+constexpr size_t SPEAKER_DMA_BUFFER_LENGTH = 512;// TTS 音频流缓冲配置。
+constexpr size_t TTS_RING_BUFFER_BYTES = 32 * 1024;// TTS 音频环形缓冲大小：32 KB，约 1 秒的 16-bit 单声道 PCM 音频数据。
 constexpr uint32_t SPEAKER_TASK_STACK_SIZE = 4096;
 constexpr UBaseType_t SPEAKER_TASK_PRIORITY = 2;
 }

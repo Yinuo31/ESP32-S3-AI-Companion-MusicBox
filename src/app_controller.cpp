@@ -9,7 +9,7 @@
 #include "oled.h"
 
 #include <ArduinoJson.h>
-
+// 事件队列长度、任务栈大小和优先级等系统参数配置。
 namespace {
 constexpr size_t EVENT_QUEUE_LENGTH = 12;
 constexpr size_t RECORD_QUEUE_LENGTH = 4;
@@ -22,7 +22,7 @@ constexpr UBaseType_t AUDIO_TASK_PRIORITY = 2;
 constexpr TickType_t NETWORK_LOOP_DELAY = pdMS_TO_TICKS(20);
 constexpr TickType_t UI_LOOP_DELAY = pdMS_TO_TICKS(20);
 
-NFC g_nfc;
+NFC g_nfc;// 全局单例对象：NFC、OLED、LED、音乐播放器等。
 OLED g_oled;
 LED g_led;
 MusicPlayer g_music;
@@ -32,12 +32,13 @@ struct MoodTrackProfile {
     uint8_t startTrack;
     uint8_t endTrack;
 };
-
+// 场景配置表：UID 与场景的映射，以及离线模式下的默认音乐。
 const SceneProfile kScenes[] = {
     {"12F84906", "focus", "专注卡", "请为用户营造专注学习氛围，给一句简短陪伴，并选择适合专注的灯光。", 1},
     {"E7550207", "sleep", "助眠卡", "请为用户营造助眠氛围，给一句轻柔安抚，并选择适合助眠的灯光。", 2},
     {"75486C06", "healing", "治愈卡", "请给用户一段温柔治愈的短回复，并选择温暖柔和的灯光。", 3},
 };
+// 情绪标签与本地曲目区间的映射配置。
 const MoodTrackProfile kMoodProfiles[] = {
     {"happy", 1, 5},
     {"calm", 6, 10},
@@ -55,7 +56,7 @@ const MoodTrackProfile* findMoodProfile(const String& label) {
     }
     return nullptr;
 }
-
+// 根据场景 UID 查找对应的场景配置。
 String normalizeLocalCommandText(String text) {
     text.trim();
     text.toLowerCase();
@@ -83,7 +84,7 @@ String normalizeLocalCommandText(String text) {
     text.replace("三首", "3");
     return text;
 }
-
+// 根据 UID 查找对应的场景配置。
 int extractLocalTrackId(const String& normalized) {
     struct ChineseTrackMap {
         const char* text;
